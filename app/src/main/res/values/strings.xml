@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">InventoryApp</string>
+
+    <string name="item_sold">Item\nsold</string>
+
+    <string name="category_overview">Item</string>
+
+    <string name="item_name_hint">"item name"</string>
+
+    <string name="item_price_hint">"item price"</string>
+    <string name="item_price">Item price</string>
+    <string name="items_in_stock">Items in stock</string>
+    <string name="record_an_order">Record an order</string>
+    <string name="default_quantity">0</string>
+    <string name="record_order">record\norder</string>
+    <string name="receive_shipment">Receive a shipment</string>
+    <string name="record_shipment">Record\nshipment</string>
+    <string name="place_order">place order</string>
+    <string name="item_suplier_email">Suplier e-mail</string>
+    <string name="item_suplier_email_hint">Suplyer email</string>
+    <string name="action_insert_dummy_data">Insert Dummy Data</string>
+    <string name="action_delete_all_entries">Delete All Pets</string>
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+
+
+</resources>

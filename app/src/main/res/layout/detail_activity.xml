@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="@dimen/activity_margin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <!-- Label -->
+        <TextView
+            style="@style/CategoryStyle"
+            android:text="@string/category_overview" />
+        <!-- Name field -->
+        <EditText
+            android:id="@+id/item_name"
+            style="@style/EditorFieldStyle"
+            android:layout_weight="2"
+            android:hint="@string/item_name_hint"
+            android:inputType="textCapWords" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <!-- Label -->
+        <TextView
+            android:text="@string/item_price"
+            style="@style/CategoryStyle" />
+        <!-- Name field -->
+        <EditText
+            android:id="@+id/item_price"
+            style="@style/EditorFieldStyle"
+            android:layout_weight="2"
+            android:hint="@string/item_price_hint"
+            android:inputType="numberDecimal" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <!-- Label -->
+        <TextView
+            android:text="@string/item_suplier_email"
+            style="@style/CategoryStyle" />
+        <!-- Name field -->
+        <EditText
+            android:layout_weight="2"
+            android:id="@+id/email"
+            android:hint="@string/item_suplier_email_hint"
+            android:inputType="textCapWords"
+            style="@style/EditorFieldStyle"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <!-- Label -->
+        <TextView
+            android:text="@string/items_in_stock"
+            style="@style/CategoryStyle" />
+        <!-- Name field -->
+        <TextView
+            android:textColor="#000000"
+            tools:text="10"
+            android:layout_weight="2"
+            android:id="@+id/items_in_stock"
+            style="@style/EditorFieldStyle"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <!-- Label -->
+        <TextView
+            android:text="@string/record_an_order"
+            style="@style/CategoryStyle" />
+        <!-- Name field -->
+
+        <LinearLayout style="@style/Order_linearL_style">
+            android:layout_weight="2"
+            <ImageButton
+                android:id="@+id/order_minus"
+                style="@style/Order_button_style"
+                android:src="@drawable/minus" />
+
+            <TextView
+                android:id="@+id/order_amount"
+                style="@style/Order_quantity_style" />
+
+            <ImageButton
+                android:id="@+id/order_plus"
+                style="@style/Order_button_style"
+                android:src="@drawable/fab_plus" />
+            <Button
+                android:id="@+id/record_order"
+                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:text="@string/record_order"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <!-- Label -->
+        <TextView
+            android:text="@string/receive_shipment"
+            style="@style/CategoryStyle" />
+        <!-- Name field -->
+
+        <LinearLayout style="@style/Order_linearL_style">
+            android:layout_weight="2"
+            <ImageButton
+                android:id="@+id/shipment_minus"
+                style="@style/Order_button_style"
+                android:src="@drawable/minus" />
+
+            <TextView
+                android:id="@+id/shipment_amount"
+                style="@style/Order_quantity_style" />
+
+            <ImageButton
+                android:id="@+id/shipment_plus"
+                style="@style/Order_button_style"
+                android:src="@drawable/fab_plus" />
+            <Button
+                android:id="@+id/record_shipment"
+                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:text="@string/record_shipment"/>
+        </LinearLayout>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/item_image"
+        android:background="#a43f3f"
+        android:layout_gravity="center"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
+    <Button
+        android:layout_gravity="center"
+        android:text="@string/place_order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>
