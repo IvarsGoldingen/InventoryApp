@@ -30,8 +30,6 @@ import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 
 import java.io.ByteArrayOutputStream;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
-
 /**
  * Created by Ivars on 2017.04.18..
  */
@@ -39,16 +37,13 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 public class EditorActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor>{
 
+    private static final int SELECT_PICTURE = 1;
     private static final int IMAGE_RESIZE_VALUE = 400;
     private static final int INVENTORY_LOADER=0;
-
-    static final int SELECT_PICTURE = 1;
-
     private Uri selectedImageUri = null;
     private Uri intentUri = null;
 
     private ImageView selectedImagePreview;
-
     private EditText mOrderQuantityText;
     private EditText mShipmentQuantityText;
     private EditText mNameEditText;
@@ -84,11 +79,9 @@ public class EditorActivity extends AppCompatActivity
         mOrderQuantityText = (EditText) findViewById(R.id.order_quantity_edit_field);
         mShipmentQuantityText = (EditText) findViewById(R.id.shipment_quantity_edit_field);
 
-
         mNameEditText.setOnTouchListener(mTouchListener);
         mPriceEditText.setOnTouchListener(mTouchListener);
         mSupplierMailEditText.setOnTouchListener(mTouchListener);
-
 
         intentUri = getIntent().getData();
         if (intentUri == null){
@@ -99,7 +92,6 @@ public class EditorActivity extends AppCompatActivity
             setTitle("Edit inventory item");
             getLoaderManager().initLoader(INVENTORY_LOADER,null,this);
         }
-
 
         Button selectImageButton = (Button) findViewById(R.id.select_image_button);
         selectImageButton.setOnClickListener(new View.OnClickListener() {
@@ -147,7 +139,7 @@ public class EditorActivity extends AppCompatActivity
 
     }
 
-    public void sendMail() {
+    private void sendMail() {
         String[] mail = {mSupplierMailEditText.getText().toString().trim()};
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("mailto:")); // only email apps should handle this
@@ -261,7 +253,7 @@ public class EditorActivity extends AppCompatActivity
             }
 
             if (intentUri == null){
-                //if a new pet is inserted
+                //if a new inventory item is inserted
                 Uri uri = getContentResolver().insert(InventoryEntry.CONTENT_URI, values);
                 if (uri == null) {
                     // If the new content URI is null, then there was an error with insertion.
@@ -273,7 +265,7 @@ public class EditorActivity extends AppCompatActivity
                             Toast.LENGTH_SHORT).show();
                 }
             } else {
-                //if a pet is updated
+                //if a inventory item is updated
                 int rowsUpdated = getContentResolver().update(intentUri, values, null, null);
                 if (rowsUpdated == 0) {
                     // If no rows were updated, there was an error
@@ -300,7 +292,7 @@ public class EditorActivity extends AppCompatActivity
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        //remove delete option on new pet
+        //remove delete option on new inventory item
         if (intentUri == null){
             MenuItem menuItem = menu.findItem(R.id.action_delete);
             menuItem.setVisible(false);
@@ -320,7 +312,7 @@ public class EditorActivity extends AppCompatActivity
                 showDeleteConfirmationDialog();
                 return true;
             case android.R.id.home:
-                // If the pet hasn't changed, continue with navigating up to parent activity
+                // If the inventory item hasn't changed, continue with navigating up to parent activity
                 // which is the {@link MainActivity}.
                 if (!mItemHasChanged) {
                     NavUtils.navigateUpFromSameTask(EditorActivity.this);
@@ -371,21 +363,17 @@ public class EditorActivity extends AppCompatActivity
         // Proceed with moving to the first row of the cursor and reading data from it
         // (This should be the only row in the cursor)
         if (data.moveToFirst()){//get to the first and only line, will return true if valid
-            int itemIdColumnIndex = data.getColumnIndex(InventoryEntry._ID);
             int nameColumnIndex = data.getColumnIndex(InventoryEntry.COLUMN_INVENTORY_ITEM_NAME);
             int priceColumnIndex = data.getColumnIndex(InventoryEntry.COLUMN_INVENTORY_ITEM_PRICE);
             int quantityColumnIndex = data.getColumnIndex(InventoryEntry.COLUMN_INVENTORY_ITEM_QUANTITY);
             int mailColumnIndex = data.getColumnIndex(InventoryEntry.COLUMN_INVENTORY_ITEM_SUPPLIER_MAIL);
             int imageColumnIndex = data.getColumnIndex(InventoryEntry.COLUMN_INVENTORY_ITEM_PICTURE);
 
-            int itemId = data.getInt(itemIdColumnIndex);
             String itemName = data.getString(nameColumnIndex);
             float itemPrice = data.getFloat(priceColumnIndex);
             itemQuantity = data.getInt(quantityColumnIndex);
             String itemSupplierMail = data.getString(mailColumnIndex);
             byte[] storedImage = data.getBlob(imageColumnIndex);
-
-
 
             mNameEditText.setText(itemName);
             mPriceEditText.setText(String.valueOf(itemPrice));
@@ -396,7 +384,6 @@ public class EditorActivity extends AppCompatActivity
                 selectedImagePreview.setImageBitmap(image);
             }
         }
-
     }
 
     private Bitmap convertByteToBitmap(byte[] b){
@@ -421,7 +408,7 @@ public class EditorActivity extends AppCompatActivity
         builder.setNegativeButton(R.string.keep_editing, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Keep editing" button, so dismiss the dialog
-                // and continue editing the pet.
+                // and continue editing the inventory item.
                 if (dialog != null) {
                     dialog.dismiss();
                 }
@@ -450,7 +437,6 @@ public class EditorActivity extends AppCompatActivity
                         finish();
                     }
                 };
-
         // Show dialog that there are unsaved changes
         showUnsavedChangesDialog(discardButtonClickListener);
     }
@@ -461,14 +447,14 @@ public class EditorActivity extends AppCompatActivity
         builder.setMessage(R.string.delete_dialog_msg);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // User clicked the "Delete" button, so delete the pet.
+                // User clicked the "Delete" button, so delete the inventory item.
                 deleteItem();
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Cancel" button, so dismiss the dialog
-                // and continue editing the pet.
+                // and continue editing the inventory item.
                 if (dialog != null) {
                     dialog.dismiss();
                 }
@@ -481,7 +467,7 @@ public class EditorActivity extends AppCompatActivity
     }
 
     /**
-     * Perform the deletion of the pet in the database.
+     * Perform the deletion of an item in the database.
      */
     private void deleteItem() {
         if (intentUri != null){

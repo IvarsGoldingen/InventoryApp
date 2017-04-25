@@ -4,12 +4,12 @@
     android:layout_height="fill_parent"
     android:fillViewport="true">
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="vertical"
-        android:padding="@dimen/activity_margin"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:padding="@dimen/activity_margin">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,8 +34,8 @@
             android:orientation="horizontal">
             <!-- Label -->
             <TextView
-                android:text="@string/item_price"
-                style="@style/CategoryStyle" />
+                style="@style/CategoryStyle"
+                android:text="@string/item_price" />
             <!-- Name field -->
             <EditText
                 android:id="@+id/item_price"
@@ -50,15 +50,15 @@
             android:orientation="horizontal">
             <!-- Label -->
             <TextView
-                android:text="@string/item_suplier_email"
-                style="@style/CategoryStyle" />
+                style="@style/CategoryStyle"
+                android:text="@string/item_suplier_email" />
             <!-- Name field -->
             <EditText
-                android:layout_weight="2"
                 android:id="@+id/email"
+                style="@style/EditorFieldStyle"
+                android:layout_weight="2"
                 android:hint="@string/item_suplier_email_hint"
-                android:inputType="textCapWords"
-                style="@style/EditorFieldStyle"/>
+                android:inputType="textEmailAddress"/>
         </LinearLayout>
 
         <LinearLayout
@@ -74,8 +74,8 @@
                 android:id="@+id/items_in_stock"
                 style="@style/EditorFieldStyle"
                 android:layout_weight="2"
-                android:textColor="#000000"
-                android:text="0" />
+                android:text="@string/default_quantity"
+                android:textColor="#000000" />
         </LinearLayout>
 
         <LinearLayout
@@ -84,20 +84,21 @@
             android:orientation="horizontal">
             <!-- Label -->
             <TextView
-                android:text="@string/record_an_order"
-                style="@style/CategoryStyle" />
+                style="@style/CategoryStyle"
+                android:text="@string/record_an_order" />
             <!-- Name field -->
             <EditText
-                android:layout_weight="1"
                 android:id="@+id/order_quantity_edit_field"
-                android:hint="0"
-                android:inputType="number"
-                style="@style/EditorFieldStyle"/>
-            <Button
+                style="@style/EditorFieldStyle"
                 android:layout_weight="1"
+                android:inputType="number"
+                android:text="@string/default_order_size"
+                android:textAlignment="center"/>
+            <Button
                 android:id="@+id/record_order"
-                android:layout_height="wrap_content"
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="@string/record_order"/>
         </LinearLayout>
         <LinearLayout
@@ -106,44 +107,46 @@
             android:orientation="horizontal">
             <!-- Label -->
             <TextView
+                android:id="@+id/textView"
+                style="@style/CategoryStyle"
                 android:layout_weight="1"
-                android:text="@string/receive_shipment"
-                style="@style/CategoryStyle" />
+                android:text="@string/receive_shipment" />
             <!-- Name field -->
 
             <EditText
-                android:layout_weight="1"
                 android:id="@+id/shipment_quantity_edit_field"
-                android:hint="0"
-                android:inputType="number"
-                style="@style/EditorFieldStyle"/>
-            <Button
+                style="@style/EditorFieldStyle"
                 android:layout_weight="1"
+                android:inputType="number"
+                android:text="@string/default_order_size"
+                android:textAlignment="center"/>
+            <Button
                 android:id="@+id/record_shipment"
-                android:layout_height="wrap_content"
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="@string/record_shipment"/>
         </LinearLayout>
 
         <ImageView
-            android:src="@drawable/no_image"
             android:id="@+id/item_image"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_gravity="center"
-            android:background="#ffffff" />
+            android:background="#ffffff"
+            android:src="@drawable/no_image" />
 
         <Button
             android:id="@+id/select_image_button"
-            android:layout_gravity="center"
-            android:text="@string/select_image"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/select_image" />
         <Button
             android:id="@+id/order_item_by_mail"
-            android:layout_gravity="center"
-            android:text="@string/place_order"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/place_order" />
     </LinearLayout>
 </ScrollView>

@@ -8,33 +8,33 @@
     android:orientation="horizontal"
     android:padding="@dimen/activity_margin">
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <TextView
-            tools:text="Toaster"
             android:id="@+id/product_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
             android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="#2B3D4D"  />
+            android:textColor="#2B3D4D"
+            tools:text="Toaster"  />
         <TextView
-            tools:text="Price: 30$"
             android:id="@+id/product_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
             android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="#AEB6BD"  />
+            android:textColor="#AEB6BD"
+            tools:text="Price: 30$"  />
         <TextView
-            tools:text="Items available: 30"
             android:id="@+id/catalog_product_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
             android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="#AEB6BD"  />
+            android:textColor="#AEB6BD"
+            tools:text="Items available: 30"  />
     </LinearLayout>
 
     <!--<Button-->

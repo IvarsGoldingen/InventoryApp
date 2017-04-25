@@ -14,30 +14,25 @@ import android.util.Log;
 
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 
-import org.apache.http.conn.ssl.StrictHostnameVerifier;
-
-import static android.R.attr.id;
-import static android.R.attr.name;
-import static com.example.android.inventoryapp.data.InventoryContract.InventoryEntry.CONTENT_LIST_TYPE;
-
 /**
  * Created by Ivars on 2017.04.22..
  */
 
 public class InventoryProvider extends ContentProvider{
 
+    /** Tag for the log messages */
+    public static final String LOG_TAG = InventoryProvider.class.getSimpleName();
     /** URI matcher code for the content URI for the inventory table */
     private static final int INVENTORY = 100;
-
-    /** URI matcher code for the content URI for a single inventory item in the pets table */
+    /** URI matcher code for the content URI for a single inventory item in the inventory table */
     private static final int INVENTORY_ID = 101;
-
     /**
      * UriMatcher object to match a content URI to a corresponding code.
      * The input passed into the constructor represents the code to return for the root URI.
      * It's common to use NO_MATCH as the input for this case.
      */
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+
     // Static initializer. This is run the first time anything is called from this class.
     static {
         // The calls to addURI() go here, for all of the content URI patterns that the provider
@@ -51,9 +46,6 @@ public class InventoryProvider extends ContentProvider{
         sUriMatcher.addURI(InventoryContract.CONTENT_AUTHORITY, InventoryContract.PATH_INVENTORY + "/#",INVENTORY_ID);
 
     }
-
-    /** Tag for the log messages */
-    public static final String LOG_TAG = InventoryProvider.class.getSimpleName();
 
     private InventoryDbHelper mDbHelper;
 
@@ -78,7 +70,7 @@ public class InventoryProvider extends ContentProvider{
         //create cursor - values from the DB will be stored there
         Cursor cursor = null;
         //chack if the uri provided is valid
-        //the store the appropriate values in the cursor
+        //then store the appropriate values in the cursor
         switch (sUriMatcher.match(uri)){
             case INVENTORY:
                 //get all the table
@@ -141,7 +133,7 @@ public class InventoryProvider extends ContentProvider{
         // Check that the name is not null
         String name = values.getAsString(InventoryEntry.COLUMN_INVENTORY_ITEM_NAME);
         if (TextUtils.isEmpty(name)) {
-            throw new IllegalArgumentException("Pet requires a name");
+            throw new IllegalArgumentException("Inventory item requires a name");
         }
         long price = values.getAsLong(InventoryEntry.COLUMN_INVENTORY_ITEM_PRICE);
         if (price<0) {
@@ -233,7 +225,7 @@ public class InventoryProvider extends ContentProvider{
         if (values.containsKey(InventoryEntry.COLUMN_INVENTORY_ITEM_NAME)){
             String name = values.getAsString(InventoryEntry.COLUMN_INVENTORY_ITEM_NAME);
             if (name == null) {
-                throw new IllegalArgumentException("Pet requires a name");
+                throw new IllegalArgumentException("Inventory item requires a name");
             }
         }
         if (values.containsKey(InventoryEntry.COLUMN_INVENTORY_ITEM_NAME)) {
@@ -249,15 +241,12 @@ public class InventoryProvider extends ContentProvider{
             }
         }
 
-
-
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        int rowsUpdated = db.update(
+        return db.update(
                 InventoryEntry.TABLE_NAME,
                 values,
                 selection,
                 selectrionArgs
         );
-        return rowsUpdated;
     }
 }

@@ -3,6 +3,7 @@ package com.example.android.inventoryapp.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 
 /**
@@ -11,11 +12,10 @@ import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 
 public class InventoryDbHelper extends SQLiteOpenHelper {
 
-    private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS" + InventoryEntry.TABLE_NAME;
-
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "inventory.db";
+    private static final String SQL_DELETE_ENTRIES =
+            "DROP TABLE IF EXISTS" + InventoryEntry.TABLE_NAME;
 
     public InventoryDbHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

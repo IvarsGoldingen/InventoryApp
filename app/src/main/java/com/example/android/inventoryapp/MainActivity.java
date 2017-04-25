@@ -1,29 +1,26 @@
 package com.example.android.inventoryapp;
 
 import android.app.AlertDialog;
+import android.app.LoaderManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.app.LoaderManager;
-import android.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
-
-
 
 public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor>{
@@ -77,8 +74,6 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId()){
             case R.id.action_insert_dummy_data:
                 insertDummyData();
-                //displayDatabaseInfo();
-                //do something
                 return true;
             case R.id.action_delete_all_entries:
                 showDeleteConfirmationDialog();
@@ -90,14 +85,11 @@ public class MainActivity extends AppCompatActivity
     private void insertDummyData(){
         Uri uri;
         ContentValues values = new ContentValues();
-        values.put(InventoryEntry.COLUMN_INVENTORY_ITEM_NAME, "Telefons");
+        values.put(InventoryEntry.COLUMN_INVENTORY_ITEM_NAME, "Phone");
         values.put(InventoryEntry.COLUMN_INVENTORY_ITEM_QUANTITY, 5);
         values.put(InventoryEntry.COLUMN_INVENTORY_ITEM_PRICE, 2.7);
-        values.put(InventoryEntry.COLUMN_INVENTORY_ITEM_SUPPLIER_MAIL, "telefoni@telefoni.com");
-        //values.put(InventoryEntry.COLUMN_INVENTORY_ITEM_PICTURE, "");
-
+        values.put(InventoryEntry.COLUMN_INVENTORY_ITEM_SUPPLIER_MAIL, "phone@phone.com");
         uri = getContentResolver().insert(InventoryEntry.CONTENT_URI,values);
-
     }
 
     @Override
@@ -125,14 +117,14 @@ public class MainActivity extends AppCompatActivity
         builder.setMessage(R.string.delete_all_dialog_msg);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // User clicked the "Delete" button, so delete the pet.
+                // User clicked the "Delete" button, so delete the inventory item.
                 deleteAllItems();
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Cancel" button, so dismiss the dialog
-                // and continue editing the pet.
+                // and continue editing the inventory item.
                 if (dialog != null) {
                     dialog.dismiss();
                 }
@@ -145,7 +137,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * Perform the deletion of the pet in the database.
+     * Perform the deletion of the inventory item in the database.
      */
     private void deleteAllItems() {
         int rowsDeleted = getContentResolver().delete(InventoryEntry.CONTENT_URI,null,null);

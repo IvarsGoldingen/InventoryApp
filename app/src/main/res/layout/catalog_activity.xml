@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2016 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2016 The Android Open Source Project
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
      You may obtain a copy of the License at
@@ -9,10 +8,8 @@
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
      See the License for the specific language governing permissions and
      limitations under the License.
--->
-<!-- Layout for the list of pets -->
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+--><!-- Layout for the list of pets -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,44 +17,52 @@
 
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:dividerHeight="0dp"
-        android:divider="#000000"
         android:id="@+id/listView"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:divider="#000000"
+        android:dividerHeight="0dp"
+        android:orientation="vertical" />
+
     <RelativeLayout
         android:id="@+id/empty_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <ImageView
-            android:adjustViewBounds="true"
             android:id="@+id/empty_inventory_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/empty_stock"/>
+            android:adjustViewBounds="true"
+            android:src="@drawable/empty_stock" />
 
         <TextView
-            android:textColor="#000000"
+            android:textAlignment="center"
             android:id="@+id/empty_title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/empty_inventory_image"
             android:layout_centerHorizontal="true"
             android:paddingTop="8dp"
-            android:text="Stock is emty"
-            android:textAppearance="?android:textAppearanceMedium"/>
+            android:text="@string/stock_is_emty"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="#000000" />
     </RelativeLayout>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
-        android:background="@drawable/oval"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/oval"
+        android:src="@drawable/fab_plus"
+        android:layout_marginRight="18dp"
+        android:layout_marginBottom="16dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/fab_plus" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="18dp" />
 </RelativeLayout>

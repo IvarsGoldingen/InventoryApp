@@ -1,32 +1,27 @@
 <resources>
     <string name="app_name">InventoryApp</string>
-
-    <string name="item_sold">Item\nsold</string>
-
     <string name="category_overview">Item</string>
-
     <string name="item_name_hint">"item name"</string>
-
     <string name="item_price_hint">"item price"</string>
     <string name="item_price">Item price</string>
     <string name="items_in_stock">Items in stock</string>
-    <string name="record_an_order">Record an order</string>
+    <string name="record_an_order">Track a sale</string>
     <string name="default_quantity">0</string>
     <string name="record_order">record\norder</string>
     <string name="receive_shipment">Receive a shipment</string>
     <string name="record_shipment">Record\nshipment</string>
     <string name="place_order">Order item by email</string>
-    <string name="item_suplier_email">Suplier e-mail</string>
-    <string name="item_suplier_email_hint">Suplyer email</string>
+    <string name="item_suplier_email">Supplier e-mail</string>
+    <string name="item_suplier_email_hint">Supplier email</string>
     <string name="action_insert_dummy_data">Insert Dummy Data</string>
-    <string name="action_delete_all_entries">Delete All Pets</string>
+    <string name="action_delete_all_entries">Delete All Items</string>
     <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>
     <string name="select_image">select image</string>
     <string name="editor_insert_item_failed">Error saving inventory item</string>
-    <string name="editor_insert_item_successful">Inventory item saved succesfully</string>
+    <string name="editor_insert_item_successful">Inventory item saved successfully</string>
     <string name="editor_update_item_failed">Error updating the item</string>
-    <string name="editor_update_item_successful">Succesfully updated item</string>
+    <string name="editor_update_item_successful">Successfully updated item</string>
     <string name="item_must_have_name">Item must have name to be saved</string>
     <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
     <string name="discard">Discard</string>
@@ -38,10 +33,12 @@
     <string name="cancel">Cancel</string>
     <string name="delete_all_dialog_msg">Delete all inventory items?</string>
     <string name="main_delete_item_failed">Failed to delete all items</string>
-    <string name="main_delete_item_successful">Succefully deleted all items</string>
+    <string name="main_delete_item_successful">Successfully deleted all items</string>
     <string name="Main_act_price">Price:</string>
     <string name="main_quantity">Quantity:</string>
     <string name="too_few_items_in_stock">Not enough items in stock</string>
+    <string name="stock_is_emty">Stock is emty\nPress the pluss button to add items</string>
+    <string name="default_order_size">1</string>
 
 
 </resources>
