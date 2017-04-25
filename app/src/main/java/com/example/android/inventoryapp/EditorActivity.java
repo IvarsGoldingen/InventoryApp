@@ -188,16 +188,16 @@ public class EditorActivity extends AppCompatActivity
         }
     }
 
-    //COnvert and resize our image to 400dp for faster uploading our images to DB
+    //COnvert and resize the image
     private Bitmap decodeUri(Uri selectedImage, int REQUIRED_SIZE) {
         try {
             // Decode image size
-            BitmapFactory.Options o = new BitmapFactory.Options();
+            BitmapFactory.Options opt1 = new BitmapFactory.Options();
             //by setting this to true, the bitmap is queried but not saved
-            o.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage), null, o);
+            opt1.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage), null, opt1);
             // Find the correct scale value. It should be the power of 2.
-            int width_tmp = o.outWidth, height_tmp = o.outHeight;
+            int width_tmp = opt1.outWidth, height_tmp = opt1.outHeight;
             int scale = 1;
             while (true) {
                 if (width_tmp / 2 < REQUIRED_SIZE
@@ -209,11 +209,11 @@ public class EditorActivity extends AppCompatActivity
                 scale *= 2;
             }
             // Decode with inSampleSize
-            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            BitmapFactory.Options opt2 = new BitmapFactory.Options();
             //example, inSampleSize == 4 returns an image that is 1/4 the width/height of the original,
             Log.e("Scale:value: ", String.valueOf(scale));
-            o2.inSampleSize = scale;
-            return BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage), null, o2);
+            opt2.inSampleSize = scale;
+            return BitmapFactory.decodeStream(getContentResolver().openInputStream(selectedImage), null, opt2);
         }
         catch (Exception e){
             e.printStackTrace();
