@@ -182,14 +182,14 @@ public class EditorActivity extends AppCompatActivity
             if (requestCode == SELECT_PICTURE) {
                 //get the image URI
                 selectedImageUri = data.getData();
-                itemBitmap = decodeUri(selectedImageUri, IMAGE_RESIZE_VALUE);
+                itemBitmap = decodeUri(selectedImageUri);
                 selectedImagePreview.setImageURI(selectedImageUri);
             }
         }
     }
 
     //COnvert and resize the image
-    private Bitmap decodeUri(Uri selectedImage, int REQUIRED_SIZE) {
+    private Bitmap decodeUri(Uri selectedImage) {
         try {
             // Decode image size
             BitmapFactory.Options opt1 = new BitmapFactory.Options();
@@ -200,8 +200,8 @@ public class EditorActivity extends AppCompatActivity
             int width_tmp = opt1.outWidth, height_tmp = opt1.outHeight;
             int scale = 1;
             while (true) {
-                if (width_tmp / 2 < REQUIRED_SIZE
-                        || height_tmp / 2 < REQUIRED_SIZE) {
+                if (width_tmp / 2 < IMAGE_RESIZE_VALUE
+                        || height_tmp / 2 < IMAGE_RESIZE_VALUE) {
                     break;
                 }
                 width_tmp /= 2;
