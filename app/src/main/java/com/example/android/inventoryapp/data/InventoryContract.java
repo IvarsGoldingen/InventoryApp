@@ -11,12 +11,13 @@ import android.provider.BaseColumns;
 
 public final class InventoryContract {
 
-    /**
-    public static final String CONTENT_AUTHORITY = "com.example.android.inventoryapp";
-   public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-    //???
+    //Content Authority helps identify the comntent provider
+    public static final String CONTENT_AUTHORITY = "com.example.android.inventory";
+    //the base Uri, which will be associated with all URIs from Inventory contract
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+    //The table name for the URI
     public static final String PATH_INVENTORY = "inventory";
-    **/
+
 
     //empty constructor
     private InventoryContract() {
@@ -25,9 +26,21 @@ public final class InventoryContract {
     //inner class that defines the table
     public static class InventoryEntry implements BaseColumns {
 
+        /**
+         * The MIME type of the {@link #CONTENT_URI} for a list of pets.
+         */
+        public static final String CONTENT_LIST_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_INVENTORY;
 
-//        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_INVENTORY);
-//
+        /**
+         * The MIME type of the {@link #CONTENT_URI} for a single pet.
+         */
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_INVENTORY;
+
+        // the full path to the table
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_INVENTORY);
+
 //        /**
 //         * The MIME type of the {@link #CONTENT_URI} for a list of pets.
 //         */

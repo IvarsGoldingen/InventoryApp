@@ -34,7 +34,7 @@
 
         <ImageView
             android:adjustViewBounds="true"
-            android:id="@+id/empty_shelter_image"
+            android:id="@+id/empty_inventory_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -45,7 +45,7 @@
             android:id="@+id/empty_title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/empty_shelter_image"
+            android:layout_below="@+id/empty_inventory_image"
             android:layout_centerHorizontal="true"
             android:paddingTop="8dp"
             android:text="Stock is emty"

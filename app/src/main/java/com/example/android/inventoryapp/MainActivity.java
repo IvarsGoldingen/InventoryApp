@@ -1,24 +1,36 @@
 package com.example.android.inventoryapp;
 
+import android.app.AlertDialog;
+import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.app.LoaderManager;
+import android.content.Loader;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
-import com.example.android.inventoryapp.data.InventoryContract;
-import com.example.android.inventoryapp.data.InventoryDbHelper;
 
-import static android.R.attr.value;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends AppCompatActivity
+        implements LoaderManager.LoaderCallbacks<Cursor>{
+
+    private static final int INVENTORY_LOADER=0;
+
+    InventoryItemAdapter itemAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +45,25 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        displayDatabaseInfo();
+
+        ListView inventoryItems = (ListView) findViewById(R.id.listView);
+        // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
+        View emptyView = findViewById(R.id.empty_view);
+        inventoryItems.setEmptyView(emptyView);
+        itemAdapter = new InventoryItemAdapter(this, null);
+        inventoryItems.setAdapter(itemAdapter);
+
+        inventoryItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, EditorActivity.class);
+                Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, id);
+                intent.setData(uri);
+                startActivity(intent);
+            }
+        });
+
+        getLoaderManager().initLoader(INVENTORY_LOADER,null,this);
     }
 
     @Override
@@ -47,23 +77,18 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.action_insert_dummy_data:
                 insertDummyData();
-                displayDatabaseInfo();
+                //displayDatabaseInfo();
                 //do something
                 return true;
             case R.id.action_delete_all_entries:
-                //do something
+                showDeleteConfirmationDialog();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        displayDatabaseInfo();
-    }
-
     private void insertDummyData(){
+        Uri uri;
         ContentValues values = new ContentValues();
         values.put(InventoryEntry.COLUMN_INVENTORY_ITEM_NAME, "Telefons");
         values.put(InventoryEntry.COLUMN_INVENTORY_ITEM_QUANTITY, 5);
@@ -71,87 +96,73 @@ public class MainActivity extends AppCompatActivity {
         values.put(InventoryEntry.COLUMN_INVENTORY_ITEM_SUPPLIER_MAIL, "telefoni@telefoni.com");
         //values.put(InventoryEntry.COLUMN_INVENTORY_ITEM_PICTURE, "");
 
-        InventoryDbHelper mDbHelper = new InventoryDbHelper(this);
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        long row = db.insert(InventoryEntry.TABLE_NAME, null, values);
+        uri = getContentResolver().insert(InventoryEntry.CONTENT_URI,values);
+
     }
 
-    private void displayDatabaseInfo() {
-        // To access our database, we instantiate our subclass of SQLiteOpenHelper
-        // and pass the context, which is the current activity.
-        InventoryDbHelper mDbHelper = new InventoryDbHelper(this);
-
-        // Create and/or open a database to read from it
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
-
-        //Projection represents the columns of the tab;e in which we are interested in
-        //if set null we get all f them from the DB
-        String[] projection = {
-                InventoryEntry._ID,
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String [] projection = {
+            InventoryEntry._ID,
                 InventoryEntry.COLUMN_INVENTORY_ITEM_NAME,
                 InventoryEntry.COLUMN_INVENTORY_ITEM_PRICE,
-                InventoryEntry.COLUMN_INVENTORY_ITEM_QUANTITY,
-                InventoryEntry.COLUMN_INVENTORY_ITEM_SUPPLIER_MAIL,
+                InventoryEntry.COLUMN_INVENTORY_ITEM_QUANTITY
         };
-        //Selection allows to serach for a specifi value in the DB
-        //like getting the 4th object by searching the ID
-        //or getting all the items which have the name "pencil"
-        String selection = InventoryEntry._ID + " = ?";
-        //the ? is replaced by the selection args
-        //this is used to protect from SQL injection
-        String[] selectionArgs = { "1" };
-        Cursor cursor = db.query(
-                InventoryEntry.TABLE_NAME,                     // The table to query
-                projection,                               // The columns to return
-                null,                                // The columns for the WHERE clause
-                null,                            // The values for the WHERE clause
-                null,                                     // don't group the rows
-                null,                                     // don't filter by row groups
-                null                                 // The sort order
-        );
-        try {
-            // Display the number of rows in the Cursor (which reflects the number of rows in the
-            // pets table in the database).
-            TextView displayView = (TextView) findViewById(R.id.empty_title_text);
-            displayView.setText("Number of rows in pets database table: " + cursor.getCount() + "\n\n");
 
-            displayView.append(InventoryEntry._ID + " - " +
-                    InventoryEntry._ID + " - " +
-                    InventoryEntry.COLUMN_INVENTORY_ITEM_NAME + " - " +
-                    InventoryEntry.COLUMN_INVENTORY_ITEM_PRICE + " - " +
-                    InventoryEntry.COLUMN_INVENTORY_ITEM_QUANTITY + " - " +
-                    InventoryEntry.COLUMN_INVENTORY_ITEM_SUPPLIER_MAIL + "\n");
+        //this loader will execute the Content Providers query method in the background
+        return new CursorLoader(this,
+                InventoryEntry.CONTENT_URI,
+                projection,
+                null,
+                null,
+                null);
+    }
 
-            //to get a value from a column we must first get the column id
-            int idColumnIndex = cursor.getColumnIndex(InventoryEntry._ID);
-            int nameColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_INVENTORY_ITEM_NAME);
-            int priceColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_INVENTORY_ITEM_PRICE);
-            int quantityColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_INVENTORY_ITEM_QUANTITY);
-            int suplierEmailColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_INVENTORY_ITEM_SUPPLIER_MAIL);
-            //move through the cursor line by line
-            //if the row is invalid(no more data in the cursor) false will be returned and we will
-            //jumps out of the while loop
-            //the cursor starts with the line -1, which has no data so we jump to the first row
-            //before the first read
-            while (cursor.moveToNext()){
-                //getting data from the cursor
-                int currentId = cursor.getInt(idColumnIndex);
-                String currentName = cursor.getString(nameColumnIndex);
-                long currentPrice = cursor.getLong(priceColumnIndex);
-                int currentQuantity = cursor.getInt(quantityColumnIndex);
-                String currentMail = cursor.getString(suplierEmailColumnIndex);
-
-                displayView.append("\n" + currentId + " - " +
-                        currentName + " - " +
-                        currentPrice + " - " +
-                        currentQuantity + " - " +
-                        currentMail);
+    private void showDeleteConfirmationDialog() {
+        // Create an AlertDialog.Builder and set the message, and click listeners
+        // for the postivie and negative buttons on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.delete_all_dialog_msg);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Delete" button, so delete the pet.
+                deleteAllItems();
             }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Cancel" button, so dismiss the dialog
+                // and continue editing the pet.
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
 
-        } finally {
-            // Always close the cursor when you're done reading from it. This releases all its
-            // resources and makes it invalid.
-            cursor.close();
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    /**
+     * Perform the deletion of the pet in the database.
+     */
+    private void deleteAllItems() {
+        int rowsDeleted = getContentResolver().delete(InventoryEntry.CONTENT_URI,null,null);
+        if(rowsDeleted<=0){
+            Toast.makeText(this, R.string.main_delete_item_failed, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, R.string.main_delete_item_successful, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        itemAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        itemAdapter.swapCursor(null);
     }
 }

@@ -29,17 +29,18 @@
             android:textColor="#AEB6BD"  />
         <TextView
             tools:text="Items available: 30"
-            android:id="@+id/product_quantity"
+            android:id="@+id/catalog_product_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
             android:textAppearance="?android:textAppearanceSmall"
             android:textColor="#AEB6BD"  />
     </LinearLayout>
-    <Button
-        android:layout_alignParentRight="true"
-        android:gravity="center_horizontal"
-        android:text="@string/item_sold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
+    <!--<Button-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:gravity="center_horizontal"-->
+        <!--android:text="@string/item_sold"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
 </RelativeLayout>
